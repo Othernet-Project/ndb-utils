@@ -1,5 +1,5 @@
 =========
-GAE utils
+NDB utils
 =========
 
 Set of utilities for working with Google AppEngine Datastore.
@@ -7,7 +7,7 @@ Set of utilities for working with Google AppEngine Datastore.
 The pckage currently has a few mixins for GAE NDB models, and a few custom
 properties.
 
-Flask GAE utils require FormEncode if you are using custom properties.
+NDB utils require FormEncode if you are using custom properties.
 
 Installation
 ============
@@ -17,17 +17,16 @@ TODO
 Model mixins
 ============
 
-Flask GAE utils comes with a few mixins for making common modelling tasks
-easier.
+NDB utils comes with a few mixins for making common modelling tasks easier.
 
-gae_utils.models.TimestampedMixin
+ndb_utils.models.TimestampedMixin
 ---------------------------------
 
 This mixin adds two properties to your models: ``created`` (creation
 timestamp), and ``updated`` (update timestamp). These are both 
 ``ndb.DateTimeProperty`` with ``auto_now_add`` and ``auto_now`` respectively.
 
-gae_utils.models.RandomMixin
+ndb_utils.models.RandomMixin
 ----------------------------
 
 Mixin provides means for retrieving a random entity. Since retrieving all
@@ -51,14 +50,14 @@ entity.
 There is also a utility method ``RandomMixin.generate_random()`` which
 generates a random integer.
 
-gae_utils.models.UniqueByAncestryMixin
+ndb_utils.models.UniqueByAncestryMixin
 --------------------------------------
 
 This mixin provides a method for checking uniqueness for a specified ancestry
 chain. This is best illustrated by example. ::
 
     >>> from google.appengine.ext import ndb
-    >>> from gae_utils.models import UniqueByAncestryMixin
+    >>> from ndb_utils.models import UniqueByAncestryMixin
     >>> class Foo(ndb.Model):
     ...     prop = ndb.StringProperty()
     >>> class Bar(ndb.Model):
@@ -98,14 +97,14 @@ doing so, note that no ancestor query is performed, and thus the
 ``is_unique()`` method cannot be used within transactions.
 
 If you prefer to raise an exception when there is a clash, there is an
-exception class provided by Flask GAE utils. You can raise this exception
-manually using the ``UniquePropertyMixin.DuplicateError`` class, or
-``gae_utils.exceptions.DuplicateError``, or by calling the
+exception class provided by NDB utils. You can raise this exception manually
+using the ``UniquePropertyMixin.DuplicateError`` class, or
+``ndb_utils.exceptions.DuplicateError``, or by calling the
 ``duplicate_error()`` classmethod passing it the same argument you passed to
 ``is_unique()``. The last method is only a cosmetic thing. It provides a
 standard error message and nothing more.
 
-gae_utils.models.UniquePropertyMixin
+ndb_utils.models.UniquePropertyMixin
 ------------------------------------
 
 This mixin provides methods for checking uniqueness of a set of properties
@@ -115,7 +114,7 @@ checked are declared using the ``unique_properties`` class property.
 Let's take a look at an example::
 
     >>> from google.appengine.ext import ndb
-    >>> from gae_utils.models import UniquePropertyMixin
+    >>> from ndb_utils.models import UniquePropertyMixin
     >>> class Foo(UniquePropertyMixin, ndb.Model):
     ...     unique_properties = ['prop']
     ...     prop = ndb.StringProperty()
@@ -144,7 +143,7 @@ successful.
 Also note that the query performed in ``is_unique()`` method is not an ancestor
 query, so this method cannot be used inside transactions.
 
-gae_utils.models.OwnershipMixin
+ndb_utils.models.OwnershipMixin
 -------------------------------
 
 ``OwnershipMixin`` is used to assign owners to entities. The ownership is
@@ -159,7 +158,7 @@ key and tests if the entity is owned by the entity.
 The mixin also provides a classmethod, ``get_by_owner()`` which takes either an
 owner entity or its key and returns a query object filtered by owner.
 
-gae_utils.models.ValidatingMixin
+ndb_utils.models.ValidatingMixin
 --------------------------------
 
 This mixin provides methods for validating model instances on ``put()`` or
@@ -178,7 +177,7 @@ Here is a simple example with an email field::
 
     >>> from google.appengine.ext import ndb
     >>> from formencode.validators import Email
-    >>> from gae_utils.models import ValidatingMixin
+    >>> from ndb_utils.models import ValidatingMixin
     >>> class Foo(ValidatingMixin, ndb.Model):
     >>>     validate_schema = {'prop': Email()}
     >>>     prop = ndb.StringProperty()
