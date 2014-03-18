@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+
+from zoro import *
+
+
+GAE_SDK = os.path.dirname(where('appcfg.py'))
+
+
+class Targets(Make):
+    """
+    To test the package, use the `test` target.
+    """
+
+    def test(self):
+        """ run unit tests """
+        wait_for_interrupt(
+            watch(python(
+                'tools/run_tests "%s" tests' % GAE_SDK.replace('\\', '\\\\')), 
+                '.', '*.py'))
+
+    def clean(self):
+        """ cleans up the dist """
+        rmtree('dist', ignore_errors=True)
+        remove('MANIFEST')
+
+    def sdist(self):
+        """ create a source distribution locally for testing purposes """
+        self._setup('sdist')
+
+    def publish(self):
+        """ register and distribute the new version on PyPI """
+        self._setup('register')
+        self._setup('sdist --formats=zip,gztar upload')
+        self.clean()
+
+    @staticmethod
+    def _setup(args):
+        """ Wrapper around setup.py """
+        run(python('setup %s' % args), True)
+
+
+if __name__ == '__main__':
+    Targets()()
