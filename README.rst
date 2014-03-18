@@ -12,7 +12,13 @@ NDB utils require FormEncode if you are using custom properties.
 Installation
 ============
 
-TODO
+NDB utils can be installed from PyPI using easy_install::
+
+    easy_install ndb-utils
+
+or with pip::
+
+    pip install ndb-utils
 
 Model mixins
 ============
@@ -219,10 +225,31 @@ the new values. For instance::
     ... except Foo.ValidationError:
     ...     print 'Not a valid email'
 
-Property mixins
-===============
+Property classes
+================
 
-The GAE utils
+The NDB utils provide a few property classes that provide features not
+available in the NDB API by default.
+
+ndb_utils.properties.SlugProperty
+---------------------------------
+
+This is a ``StringProperty`` that validates strings that shoudl be in slug format
+(only containing letters A to Z, digits, underscores and dashes).
+
+ndb_utils.properties.EmailProperty
+----------------------------------
+
+This is ``StringProperty`` that validates email addresses.
+
+ndb_utils.properties.DecimalProperty
+------------------------------------
+
+This property stores decimals (python's ``decimal.Decimal`` type). The values
+are internally stored as integers and querying with comparison operators such
+as ``>=`` or ``<`` is supported. The floating point precision can be specified,
+which is used when converting between decimals and integers. This value is
+specified using ``float_prec`` argument and is 2 by default.
 
 
 .. _FormEncode: http://www.formencode.org/en/latest/
