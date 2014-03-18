@@ -90,11 +90,8 @@ class EmailProperty(ndb.StringProperty):
 class DecimalProperty(ndb.IntegerProperty):
     """ Property that stores Python Decimal objects """
 
-    float_prec = 2
-
-    def __init__(self, float_prec=None, **kwargs):
-        if float_prec is not None:
-            self.float_prec = float_prec
+    def __init__(self, float_prec=2, **kwargs):
+        self.float_prec = float_prec
         super(DecimalProperty, self).__init__(**kwargs)
 
     def _validate(self, value):
