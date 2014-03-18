@@ -7,7 +7,7 @@ setup(
     long_description=open(os.path.join(os.path.dirname(__file__),
                                        'README.rst')).read(),
     version='0.1a1',
-    packages=['gae_utils'],
+    packages=['ndb_utils'],
     requires=[
         'FormEncode (>=1.3.0a1)',
     ],
